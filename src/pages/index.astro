@@ -1,16 +1,65 @@
 ---
-
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import FormQuestion2 from "../components/FormQuestion.astro";
 ---
+<DefaultLayout>
+	<main class="flex flex-wrap flex-col justify-center items-start md:items-center w-full h-screen">
+		<div id="first-content" class="first-question w-full flex flex-col justify-center items-start md:items-center">
+			<h1 class="text-white text-2xl lg:text-5xl font-bold font-sans justify-center items-center px-6">Hola ¿listo para ver una buena película hoy?</h1>
+			<div class="grid grid-cols-2 gap-2 p-6 w-full md:max-w-xl">
+                <button type="button" class="prev-btn text-xs lg:text-xl bg-transparent border-4 border-violet-800 hover:border-white transition-colors rounded-full px-6 py-2 text-white font-semibold">Ahora no :(</button>
+                <button type="button" class="next-btn text-xs lg:text-xl bg-pink-500 hover:bg-pink-600 border-4 border-violet-800 hover:border-pink-600 transition-colors rounded-full px-6 py-2 text-white font-semibold text-center">Por supuesto</button>
+            </div>	
+		</div>
+		<div id="form-question" class="animate__animated animate__bounceInLeft hidden w-[600px]">
+            <FormQuestion2 
+                opcion = 'Escoge una opción', 
+                accion = 'Peliculas de acción', 
+                suspenso = 'Peliculas de suspenso', 
+                drama = 'Drama', 
+                comedia = 'Comedia', 
+                terror = 'Terror',
+				nothing = 'No lo tengo claro'
+            />
+        </div>
+	</main>
+</DefaultLayout>
+<style>
+	.first-question {
+		animation: question 0.5s ease-in;
+	}
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+	@keyframes question {
+		0% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 0.5;
+		}
+		100% {
+			opacity: 1;
+		}
+		
+	}
+</style>
+<script>
+	const firstContent = document.getElementById('first-content')
+	const secondContent = document.getElementById('form-question')
+	const nextStep = document.querySelector('.next-btn')
+
+	// Funcion animationend hace algo cuando termina la animacion
+	firstContent.addEventListener('animationend', ()=> {firstContent.classList.remove('first-question')})
+
+	// Elimina la primera pregunta y aparece el formulario
+	nextStep.addEventListener('click', ()=> {
+		// Añade la clase de la animación que hace que se vaya a la derecha
+		firstContent.classList.add('animate__animated', 'animate__bounceOutRight')
+		// Elimina la clase de la segunda animacion cuando la animacion termina
+		firstContent.addEventListener('animationend', () => {
+			firstContent.classList.remove('animate__animated', 'animate__bounceOutRight')
+			firstContent.classList.add('hidden')
+			secondContent.classList.remove('hidden')
+		});
+	})
+</script>
+

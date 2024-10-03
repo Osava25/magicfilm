@@ -1,0 +1,168 @@
+---
+const { opcion = 'Escoge una opción', accion = 'Acción', suspenso = 'Suspenso', drama = 'Drama', comedia = 'Comedia', terror = 'Terror', nothing = 'Nada' } = Astro.props
+---
+<form id="qMovies" action="list-movies" class="flex flex-wrap items-center max-w-xl mx-auto" >
+        <div class="question" id="q1">
+            <h4 class="text-white text-2xl lg:text-3xl font-semibold font-sans justify-center items-center text-center mb-3">Veo que quieres verte una buena película, coméntame ¿Que tipo de películas te gustan o quieres ver hoy?</h2>
+                <select 
+                    id="tipos-peliculas" 
+                    data-accion={accion}
+                    data-suspenso={suspenso}
+                    data-drama={drama}
+                    data-comedia={comedia}
+                    data-terror={terror}
+                    data-nose={nothing} 
+                    onchange="optionTypeMovieFunction()" 
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                    <option data-opcion={opcion} id="q1-op1" selected>{opcion}</option>
+                    <option id="q1-op2">{accion}</option>
+                    <option id="q1-op2">{suspenso}</option>
+                    <option id="q1-op3">{drama}</option>
+                    <option id="q1-op4">{comedia}</option>
+                    <option id="q1-op5">{terror}</option>
+                    <option id="q1-op6">{nothing}</option>
+                </select>
+                <div class="grid grid-cols-1 gap-2 p-6 w-full md:max-w-xs m-auto">
+                    <button type="button" class="next-btn text-xs lg:text-xl bg-pink-500 hover:bg-pink-600 border-4 border-violet-800 hover:border-pink-600 transition-colors rounded-full px-6 py-2 text-white font-semibold text-center">Siguiente</button>
+                </div>	
+        </div>
+        <div class="question animate__animated animate__bounceInLeft hidden" id="q2">
+            <h4 class="text-white text-2xl lg:text-2xl font-semibold font-sans justify-center items-center text-center mb-3">¡Excelente! Te gusta <span id="type-movie">[tipopelicula]</span>, ahora te invito a que escojas alguno de estos tipos de películas</h4>
+            <select id="clase-peliculas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <!-- Se agregan los options de forma dinámica -->
+                <option>Nada</option>
+                 
+            </select>
+            <div class="grid grid-cols-2 gap-2 p-6 w-full md:max-w-xl">
+                <button type="button" class="prev-btn text-xs lg:text-xl bg-transparent border-4 border-violet-800 hover:border-white transition-colors rounded-full px-6 py-2 text-white font-semibold">Atrás</button>
+                <button type="submit" class="text-xs lg:text-xl bg-pink-500 hover:bg-pink-600 border-4 border-violet-800 hover:border-pink-600 transition-colors rounded-full px-6 py-2 text-white font-semibold text-center">Siguiente</button>
+            </div>	
+        </div>
+</form>
+<style>
+    .animation-slide {
+        animation: slide-form 0.5s ease-out;
+    }
+
+    @keyframes slide-form {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+<script is:inline>
+    //accionMovies.map((opcion) => <option>{opcion}</option>)
+
+    const form = document.forms;
+    const formQuestion = form.qMovies;
+    const typeMovie = document.getElementById('type-movie');
+    const questions = formQuestion.querySelectorAll('.question');
+    const nextBtns = formQuestion.querySelectorAll('.next-btn');
+    const prevBtns = formQuestion.querySelectorAll('.prev-btn');
+    const selectTypeMovie = document.getElementById('tipos-peliculas')
+    const selectClassMovie = document.getElementById('clase-peliculas')
+    var accionMovies = ["Quiero ver películas de acción con futuro distópico", "Quiero ver películas de acción de plomo", "Quiero ver películas de acción de extraterrestres", "Quiero ver películas de acción de Aventuras", "Quiero ver películas de acción de naves espaciales"]
+    var suspensoMovies = ["Suspenso policiaco", "Suspenso distópico", "Suspenso drama", "Suspenso sicológico"]
+    var dramaMovies = ["Drama policiaco", "Drama distópico", "Drama sicológico"]
+    var comediaMovies = ["Comedia general", "Comedia romántica", "Comedia +18", "Otra comedia"]
+    var terrorMovies = ["Terror sicológico", "Terror historia real", "Terror distópico"]
+    
+    // función que agrega el tipo de película a la pregunta dos
+    function optionTypeMovieFunction() {
+        var optionTypeMovie = selectTypeMovie.options[selectTypeMovie.selectedIndex].text;
+        if (optionTypeMovie == selectTypeMovie.dataset.accion) {
+            typeMovie.innerHTML ='la acción'
+            // agrega <option> a la pregunta 2 dependiendo del tipo de pelicua escogida
+            var optionsAccionMovie = accionMovies.map((e) => {
+                return `<option>${e}</option>`
+            })
+            selectClassMovie.innerHTML = optionsAccionMovie
+        }
+        else if (optionTypeMovie == selectTypeMovie.dataset.suspenso) {
+            typeMovie.innerHTML ='el suspenso'
+            // agrega <option> a la pregunta 2 dependiendo del tipo de pelicua escogida
+                var optionsSuspensoMovie = suspensoMovies.map((e) => {
+                return `<option>${e}</option>`
+             })
+            selectClassMovie.innerHTML = optionsSuspensoMovie
+
+        }
+        else if (optionTypeMovie == selectTypeMovie.dataset.drama) {
+            typeMovie.innerHTML ='el drama'
+            // agrega <option> a la pregunta 2 dependiendo del tipo de pelicua escogida
+                var optionsDramaMovie = dramaMovies.map((e) => {
+                return `<option>${e}</option>`
+             })
+            selectClassMovie.innerHTML = optionsDramaMovie
+
+        }
+        else if (optionTypeMovie == selectTypeMovie.dataset.comedia) {
+            typeMovie.innerHTML ='la ' + optionTypeMovie.toLowerCase()
+            // agrega <option> a la pregunta 2 dependiendo del tipo de pelicua escogida
+                var optionsComediaMovie = comediaMovies.map((e) => {
+                return `<option>${e}</option>`
+             })
+            selectClassMovie.innerHTML = optionsComediaMovie
+
+        }
+        else if (optionTypeMovie == selectTypeMovie.dataset.terror) {
+            typeMovie.innerHTML ='el ' + optionTypeMovie.toLowerCase()
+            // agrega <option> a la pregunta 2 dependiendo del tipo de pelicua escogida
+                var optionsTerrorMovie = terrorMovies.map((e) => {
+                return `<option>${e}</option>`
+             })
+            selectClassMovie.innerHTML = optionsTerrorMovie
+
+        }
+        else if (optionTypeMovie == selectTypeMovie.dataset.nose) {
+            href = 'list-movies'
+        }
+        else {
+            typeMovie.innerHTML = 'el ' + optionTypeMovie.toLowerCase()
+        }
+        
+    }
+
+    let currentQuestion = 0;
+  
+    nextBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        questions[currentQuestion].classList.add('animate__animated', 'animate__bounceOutRight');
+        // Listener que escucha cuando se termina la animacion y ejecuta una funcion
+        questions[currentQuestion].addEventListener('animationend', ()=> {
+            questions[currentQuestion].classList.remove('animate__animated', 'animate__bounceOutRight')
+            questions[currentQuestion].classList.add('hidden')
+            currentQuestion++;
+            questions[currentQuestion].classList.remove('hidden');    
+        })
+        
+      });
+    });
+  
+    prevBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        questions[currentQuestion].classList.add('animate__animated', 'animate__bounceOutLeft');
+        questions[currentQuestion].addEventListener('animationend', ()=> {
+            questions[currentQuestion].classList.remove('animate__animated', 'animate__bounceOutLeft')
+            questions[currentQuestion].classList.add('hidden')
+            currentQuestion--;
+            questions[currentQuestion].classList.remove('hidden');
+            //questions[currentQuestion].classList.add('animate__animated', 'animate__bounceOutLeft');
+
+        })
+        
+      });
+    });
+  
+    formQuestion.addEventListener('submit', () => {
+      
+      const formData = new FormData(formQuestion);
+      const data = Object.fromEntries(formData);
+      console.log('Form submitted:', data);
+      // Here you would typically send the data to a server
+    });
+</script>
