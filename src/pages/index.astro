@@ -3,7 +3,7 @@ import DefaultLayout from '../layouts/DefaultLayout.astro'
 import FormQuestion2 from "../components/FormQuestion.astro";
 ---
 <DefaultLayout>
-	<main class="flex flex-wrap flex-col justify-center items-start md:items-center w-full h-screen">
+	<main class="flex flex-wrap flex-col justify-center items-start md:items-center p-2 w-full lg:w-[1280px] mx-auto h-[calc(100vh-4rem)]">
 		<div id="first-content" class="first-question w-full flex flex-col justify-center items-start md:items-center">
 			<h1 class="text-white text-2xl lg:text-5xl font-bold font-sans justify-center items-center px-6">Hola ¿listo para ver una buena película hoy?</h1>
 			<div class="grid grid-cols-2 gap-2 p-6 w-full md:max-w-xl">
@@ -11,7 +11,7 @@ import FormQuestion2 from "../components/FormQuestion.astro";
                 <button type="button" class="next-btn text-xs lg:text-xl bg-pink-500 hover:bg-pink-600 border-4 border-violet-800 hover:border-pink-600 transition-colors rounded-full px-6 py-2 text-white font-semibold text-center">Por supuesto</button>
             </div>	
 		</div>
-		<div id="form-question" class="animate__animated animate__bounceInLeft hidden w-[600px]">
+		<div id="form-question" class="animate__animated animate__bounceInLeft hidden w-full lg:w-1/2 mx-auto">
             <FormQuestion2 
                 opcion = 'Escoge una opción', 
                 accion = 'Peliculas de acción', 

@@ -1,9 +1,10 @@
 ---
 const { opcion = 'Escoge una opción', accion = 'Acción', suspenso = 'Suspenso', drama = 'Drama', comedia = 'Comedia', terror = 'Terror', nothing = 'Nada' } = Astro.props
 ---
-<form id="qMovies" action="list-movies" class="flex flex-wrap items-center max-w-xl mx-auto" >
-        <div class="question" id="q1">
-            <h4 class="text-white text-2xl lg:text-3xl font-semibold font-sans justify-center items-center text-center mb-3">Veo que quieres verte una buena película, coméntame ¿Que tipo de películas te gustan o quieres ver hoy?</h2>
+
+<form id="qMovies" action="list-movies" class="flex flex-wrap items-center justify-center  w-full mx-auto">
+        <div id="q1" class="question">
+            <h4 id="title-question" class="text-white text-2xl lg:text-3xl font-semibold font-sans justify-center items-center text-center mb-3">Veo que quieres verte una buena película, coméntame ¿Que tipo de películas te gustan o quieres ver hoy?</h4>
                 <select 
                     id="tipos-peliculas" 
                     data-accion={accion}
@@ -27,7 +28,7 @@ const { opcion = 'Escoge una opción', accion = 'Acción', suspenso = 'Suspenso'
                     <button type="button" class="next-btn text-xs lg:text-xl bg-pink-500 hover:bg-pink-600 border-4 border-violet-800 hover:border-pink-600 transition-colors rounded-full px-6 py-2 text-white font-semibold text-center">Siguiente</button>
                 </div>	
         </div>
-        <div class="question animate__animated animate__bounceInLeft hidden" id="q2">
+        <div id="q2" class="question hidden">
             <h4 class="text-white text-2xl lg:text-2xl font-semibold font-sans justify-center items-center text-center mb-3">¡Excelente! Te gusta <span id="type-movie">[tipopelicula]</span>, ahora te invito a que escojas alguno de estos tipos de películas</h4>
             <select id="clase-peliculas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <!-- Se agregan los options de forma dinámica -->
@@ -60,6 +61,7 @@ const { opcion = 'Escoge una opción', accion = 'Acción', suspenso = 'Suspenso'
     const form = document.forms;
     const formQuestion = form.qMovies;
     const typeMovie = document.getElementById('type-movie');
+    const titleQuestionMovies = document.getElementById('title-question');
     const questions = formQuestion.querySelectorAll('.question');
     const nextBtns = formQuestion.querySelectorAll('.next-btn');
     const prevBtns = formQuestion.querySelectorAll('.prev-btn');
@@ -146,15 +148,14 @@ const { opcion = 'Escoge una opción', accion = 'Acción', suspenso = 'Suspenso'
     prevBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         questions[currentQuestion].classList.add('animate__animated', 'animate__bounceOutLeft');
+        // Listener que escucha cuando se termina la animacion y ejecuta una funcion
         questions[currentQuestion].addEventListener('animationend', ()=> {
             questions[currentQuestion].classList.remove('animate__animated', 'animate__bounceOutLeft')
             questions[currentQuestion].classList.add('hidden')
             currentQuestion--;
             questions[currentQuestion].classList.remove('hidden');
             //questions[currentQuestion].classList.add('animate__animated', 'animate__bounceOutLeft');
-
         })
-        
       });
     });
   
